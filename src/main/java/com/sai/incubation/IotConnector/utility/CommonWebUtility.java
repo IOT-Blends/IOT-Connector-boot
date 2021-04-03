@@ -13,7 +13,7 @@ public class CommonWebUtility {
 
 		HttpHeaders httpHeaders = headers != null ? headers : new HttpHeaders();
 		HttpResponse response = new HttpResponse(httpStatus.value(), httpStatus, errorMessage, data);
-		return new ResponseEntity<>(response, httpHeaders, httpStatus);
+		return new ResponseEntity<HttpResponse>(response, httpHeaders, httpStatus);
 
 	}
 
