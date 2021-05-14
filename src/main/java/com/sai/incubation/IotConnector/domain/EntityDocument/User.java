@@ -1,7 +1,11 @@
 package com.sai.incubation.IotConnector.domain.EntityDocument;
 
+import java.util.Date;
+
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.web.multipart.MultipartFile;
 
 @Document(collection = "user")
 public class User {
@@ -10,6 +14,7 @@ public class User {
 	private String id;
 	private String firstName;
 	private String lastName;
+	@Indexed(unique = true)
 	private String email;
 	private String password;
 	private String areaCode;
@@ -23,6 +28,46 @@ public class User {
 	private String zip;
 	private String country;
 	private String creator;
+	private String role;
+	private String[] authority;
+	private Date lastLoginDateDisplay;
+	private Date lastLoginDate;
+	private Boolean active;
+	private Boolean notLocked;
+	private String profileImageUrl;
+	private MultipartFile profileImage;
+	
+	public User(String id, String firstName, String lastName, String email, String password, String areaCode,
+			String mobileNumber, String dob, String gender, String addressLine1, String addressLine2, String city,
+			String state, String zip, String country, String creator, String role, String[] authority,
+			Date lastLoginDateDisplay, Date lastLoginDate, Boolean active, Boolean notLocked, 
+			String profileImageUrl, MultipartFile profileImage) {
+		super();
+		this.id = id;
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.email = email;
+		this.password = password;
+		this.areaCode = areaCode;
+		this.mobileNumber = mobileNumber;
+		this.dob = dob;
+		this.gender = gender;
+		this.addressLine1 = addressLine1;
+		this.addressLine2 = addressLine2;
+		this.city = city;
+		this.state = state;
+		this.zip = zip;
+		this.country = country;
+		this.creator = creator;
+		this.role = role;
+		this.authority = authority;
+		this.lastLoginDateDisplay = lastLoginDateDisplay;
+		this.lastLoginDate = lastLoginDate;
+		this.active = active;
+		this.notLocked = notLocked;
+		this.profileImageUrl = profileImageUrl;
+		this.profileImage = profileImage;
+	}
 
 	public String getId() {
 		return id;
@@ -152,4 +197,67 @@ public class User {
 		this.creator = creator;
 	}
 
+	public String getRole() {
+		return role;
+	}
+
+	public void setRole(String role) {
+		this.role = role;
+	}
+
+	public String[] getAuthority() {
+		return authority;
+	}
+
+	public void setAuthority(String[] authority) {
+		this.authority = authority;
+	}
+
+	public Date getLastLoginDate() {
+		return lastLoginDate;
+	}
+
+	public void setLastLoginDate(Date lastLoginDate) {
+		this.lastLoginDate = lastLoginDate;
+	}
+
+	public Date getLastLoginDateDisplay() {
+		return lastLoginDateDisplay;
+	}
+
+	public void setLastLoginDateDisplay(Date lastLoginDateDisplay) {
+		this.lastLoginDateDisplay = lastLoginDateDisplay;
+	}
+
+	public Boolean getActive() {
+		return active;
+	}
+
+	public void setActive(Boolean active) {
+		this.active = active;
+	}
+
+	public Boolean getNotLocked() {
+		return notLocked;
+	}
+
+	public void setNotLocked(Boolean notLocked) {
+		this.notLocked = notLocked;
+	}
+
+	public String getProfileImageUrl() {
+		return profileImageUrl;
+	}
+
+	public void setProfileImageUrl(String profileImageUrl) {
+		this.profileImageUrl = profileImageUrl;
+	}
+
+	public MultipartFile getProfileImage() {
+		return profileImage;
+	}
+
+	public void setProfileImage(MultipartFile profileImage) {
+		this.profileImage = profileImage;
+	}
 }

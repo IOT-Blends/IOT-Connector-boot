@@ -8,19 +8,20 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 
 public class HttpResponse {
 
-	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "MM-dd-yyy hh:mm:ss", timezone = "America/New_York")
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "MM-dd-yyy hh:mm:ss", timezone = ""
+			+ "America/New_York")
 	private Date timeStamp;
 	private int httpStatusCode;
 	private HttpStatus httpStatus;
-	private String errorMessage;
+	private String message;
 	private Object data;
 
-	public HttpResponse(int httpStatusCode, HttpStatus httpStatus, String errorMessage, Object data) {
+	public HttpResponse(int httpStatusCode, HttpStatus httpStatus, String message, Object data) {
 		super();
 		this.timeStamp = new Date();
 		this.httpStatusCode = httpStatusCode;
 		this.httpStatus = httpStatus;
-		this.errorMessage = errorMessage;
+		this.message = message;
 		this.data = data;
 	}
 
@@ -48,12 +49,12 @@ public class HttpResponse {
 		this.httpStatus = httpStatus;
 	}
 
-	public String getErrorMessage() {
-		return errorMessage;
+	public String getMessage() {
+		return message;
 	}
 
-	public void setErrorMessage(String errorMessage) {
-		this.errorMessage = errorMessage;
+	public void setMessage(String message) {
+		this.message = message;
 	}
 
 	public Object getData() {
