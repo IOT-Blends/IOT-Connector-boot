@@ -1,0 +1,9 @@
+jwt:
+  secret: 
+spring:
+  data:
+    mongodb:
+      host: localhost
+      port: 27017
+      database: iotConnector
+      auto-index-creation: true
