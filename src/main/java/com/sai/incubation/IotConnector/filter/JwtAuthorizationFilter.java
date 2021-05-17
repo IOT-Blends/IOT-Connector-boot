@@ -1,5 +1,8 @@
 package com.sai.incubation.IotConnector.filter;
 
+import static com.sai.incubation.IotConnector.constants.SecurityConstant.OPTIONS_HTTP_METHOD;
+import static com.sai.incubation.IotConnector.constants.SecurityConstant.TOKEN_PREFIX;
+
 import java.io.IOException;
 import java.util.List;
 
@@ -16,7 +19,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-import static com.sai.incubation.IotConnector.constants.SecurityConstant.*;
 import com.sai.incubation.IotConnector.utility.JwtUtil;
 
 @Component
