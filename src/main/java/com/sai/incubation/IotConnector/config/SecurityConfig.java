@@ -6,17 +6,66 @@ import java.util.Collections;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.NoOpPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
 
-@Configuration
-public class SecurityConfig extends WebSecurityConfigurerAdapter {
+import com.sai.incubation.IotConnector.constants.SecurityConstant;
+import com.sai.incubation.IotConnector.filter.JwtAccessDeniedHandler;
+import com.sai.incubation.IotConnector.filter.JwtAuthEntryPointFilter;
+import com.sai.incubation.IotConnector.filter.JwtAuthorizationFilter;
+import com.sai.incubation.IotConnector.service.AppUserDetailsService;
 
+@Configuration
+@EnableWebSecurity
+@EnableGlobalMethodSecurity(prePostEnabled = true)
+public class SecurityConfig extends WebSecurityConfigurerAdapter {
+	
+	private JwtAuthorizationFilter jwtAuthFilter;
+	private JwtAccessDeniedHandler jwtAccessDeniedHandler;
+	private JwtAuthEntryPointFilter jwtAuthEntryPoint;
+	private UserDetailsService userDetailsService;
+	private BCryptPasswordEncoder bCryptPasswordEncoder;
+	
+	public SecurityConfig(JwtAuthorizationFilter jwtAuthFilter, JwtAccessDeniedHandler jwtAccessDeniedHandler,
+			JwtAuthEntryPointFilter jwtAuthEntryPoint, @Qualifier("userDetailsService")UserDetailsService userDetailsService,
+			BCryptPasswordEncoder bCryptPasswordEncoder) {
+		super();
+		this.jwtAuthFilter = jwtAuthFilter;
+		this.jwtAccessDeniedHandler = jwtAccessDeniedHandler;
+		this.jwtAuthEntryPoint = jwtAuthEntryPoint;
+		this.userDetailsService = userDetailsService;
+		this.bCryptPasswordEncoder = bCryptPasswordEncoder;
+	}
+
+	@Override
+	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+		auth.userDetailsService(userDetailsService).passwordEncoder(bCryptPasswordEncoder);
+	}
+	
+	@Override
+	@Bean
+	public AuthenticationManager authenticationManagerBean() throws Exception {
+	    return super.authenticationManagerBean();
+	}
+	
 	/**
 	 * /myAccount - Secured /myBalance - Secured /myLoans - Secured /myCards -
 	 * Secured /notices - Not Secured /contact - Not Secured
@@ -38,7 +87,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				config.setMaxAge(3600L);
 				return config;
 			}
-		}).and().csrf().disable().authorizeRequests().anyRequest().permitAll();
+		}).and().csrf().disable()
+		.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+		.and().authorizeRequests().antMatchers(SecurityConstant.PUBLIC_URLS).permitAll()
+		.anyRequest().authenticated() // .anyRequest().permitAll()
+		.and().exceptionHandling().accessDeniedHandler(jwtAccessDeniedHandler)
+		.authenticationEntryPoint(jwtAuthEntryPoint)
+		.and().addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
 
 	}
 

@@ -47,8 +47,8 @@ public class ProductController {
 		}
 
 		return productOpt.isPresent()
-				? CommonWebUtility.createResponseEntiry(HttpStatus.OK, null, null, productOpt.get())
-				: CommonWebUtility.createResponseEntiry(HttpStatus.NOT_FOUND, null, "Product Not Found", null);
+				? CommonWebUtility.createResponseEntity(HttpStatus.OK, null, null, productOpt.get())
+				: CommonWebUtility.createResponseEntity(HttpStatus.NOT_FOUND, null, "Product Not Found", null);
 	}
 
 	@PutMapping("update")
@@ -67,8 +67,8 @@ public class ProductController {
 		}
 
 		return productOpt.isPresent()
-				? CommonWebUtility.createResponseEntiry(HttpStatus.OK, null, null, productOpt.get())
-				: CommonWebUtility.createResponseEntiry(HttpStatus.NOT_FOUND, null, "Product Not Found", null);
+				? CommonWebUtility.createResponseEntity(HttpStatus.OK, null, null, productOpt.get())
+				: CommonWebUtility.createResponseEntity(HttpStatus.NOT_FOUND, null, "Product Not Found", null);
 	}
 
 	@GetMapping("/getById/{id}")
@@ -82,8 +82,8 @@ public class ProductController {
 		}
 
 		return productOpt.isPresent()
-				? CommonWebUtility.createResponseEntiry(HttpStatus.OK, null, null, productOpt.get())
-				: CommonWebUtility.createResponseEntiry(HttpStatus.NOT_FOUND, null, "Product Not Found", null);
+				? CommonWebUtility.createResponseEntity(HttpStatus.OK, null, null, productOpt.get())
+				: CommonWebUtility.createResponseEntity(HttpStatus.NOT_FOUND, null, "Product Not Found", null);
 	}
 
 	@DeleteMapping("/delete/{id}")
@@ -96,8 +96,8 @@ public class ProductController {
 			log.error("Error while retrieving all Product");
 		}
 
-		return response.isPresent() ? CommonWebUtility.createResponseEntiry(HttpStatus.OK, null, null, response.get())
-				: CommonWebUtility.createResponseEntiry(HttpStatus.NOT_FOUND, null, "Product Not Found", null);
+		return response.isPresent() ? CommonWebUtility.createResponseEntity(HttpStatus.OK, null, null, response.get())
+				: CommonWebUtility.createResponseEntity(HttpStatus.NOT_FOUND, null, "Product Not Found", null);
 	}
 
 }

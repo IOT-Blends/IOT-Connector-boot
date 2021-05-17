@@ -8,17 +8,17 @@ import com.sai.incubation.IotConnector.domain.Common.HttpResponse;
 
 public class CommonWebUtility {
 
-	public static ResponseEntity<HttpResponse> createResponseEntiry(HttpStatus httpStatus, HttpHeaders headers,
-			String errorMessage, Object data) {
+	public static ResponseEntity<HttpResponse> createResponseEntity(HttpStatus httpStatus, HttpHeaders headers,
+			String message, Object data) {
 
 		HttpHeaders httpHeaders = headers != null ? headers : new HttpHeaders();
-		HttpResponse response = new HttpResponse(httpStatus.value(), httpStatus, errorMessage, data);
+		HttpResponse response = new HttpResponse(httpStatus.value(), httpStatus, message, data);
 		return new ResponseEntity<HttpResponse>(response, httpHeaders, httpStatus);
 
 	}
 
 	public static ResponseEntity<HttpResponse> incorrectRequestData(HttpStatus httpStatus, String error) {
 
-		return CommonWebUtility.createResponseEntiry(httpStatus, null, error, null);
+		return CommonWebUtility.createResponseEntity(httpStatus, null, error, null);
 	}
 }

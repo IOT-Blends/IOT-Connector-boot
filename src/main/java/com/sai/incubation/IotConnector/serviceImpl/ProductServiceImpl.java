@@ -51,8 +51,8 @@ public class ProductServiceImpl implements ProductService {
 			// TODO: handle exception
 		}
 
-		return updatedProduct != null ? CommonWebUtility.createResponseEntiry(HttpStatus.OK, null, null, updatedProduct)
-				: CommonWebUtility.createResponseEntiry(HttpStatus.EXPECTATION_FAILED, null,
+		return updatedProduct != null ? CommonWebUtility.createResponseEntity(HttpStatus.OK, null, null, updatedProduct)
+				: CommonWebUtility.createResponseEntity(HttpStatus.EXPECTATION_FAILED, null,
 						"Error while updating the Product", null);
 	}
 
