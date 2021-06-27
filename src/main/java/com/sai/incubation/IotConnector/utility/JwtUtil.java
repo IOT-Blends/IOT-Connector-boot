@@ -1,11 +1,13 @@
 package com.sai.incubation.IotConnector.utility;
 
+import static com.sai.incubation.IotConnector.constants.SecurityConstant.AUTHORITIES;
+import static com.sai.incubation.IotConnector.constants.SecurityConstant.EXPIRATION_TIME;
+import static com.sai.incubation.IotConnector.constants.SecurityConstant.IOT_BLENDS_LLC;
+import static com.sai.incubation.IotConnector.constants.SecurityConstant.TOKEN_CANNOT_BE_VERIFIED;
+
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -16,7 +18,6 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
@@ -26,8 +27,6 @@ import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTCreationException;
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.interfaces.JWTVerifier;
-
-import static com.sai.incubation.IotConnector.constants.SecurityConstant.*;
 import com.sai.incubation.IotConnector.domain.Common.UserPrincipal;
 
 /*import io.jsonwebtoken.Claims;
