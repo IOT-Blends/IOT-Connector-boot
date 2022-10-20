@@ -6,7 +6,6 @@ import java.util.Collections;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -19,8 +18,6 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.NoOpPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
@@ -31,9 +28,6 @@ import com.sai.incubation.IotConnector.constants.SecurityConstant;
 import com.sai.incubation.IotConnector.filter.JwtAccessDeniedHandler;
 import com.sai.incubation.IotConnector.filter.JwtAuthEntryPointFilter;
 import com.sai.incubation.IotConnector.filter.JwtAuthorizationFilter;
-import com.sai.incubation.IotConnector.service.AppUserDetailsService;
-import com.sai.incubation.IotConnector.service.UserService;
-import com.sai.incubation.IotConnector.serviceImpl.UserServiceImpl;
 
 @Configuration
 @EnableWebSecurity
