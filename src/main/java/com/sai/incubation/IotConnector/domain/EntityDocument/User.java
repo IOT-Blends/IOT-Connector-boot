@@ -7,19 +7,26 @@ import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.web.multipart.MultipartFile;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 @Document(collection = "user")
 public class User {
 
 	@Id
-	private String id;
+	private String userId;
 	private String firstName;
 	private String lastName;
 	@Indexed(unique = true)
 	private String email;
 	private String password;
 	private String areaCode;
-	private String mobileNumber;
-	private String dob;
+	private String phoneNumber;
+	private Date dob;
 	private String gender;
 	private String addressLine1;
 	private String addressLine2;
@@ -37,7 +44,7 @@ public class User {
 	private String profileImageUrl;
 	private MultipartFile profileImage;
 	
-	public User(String id, String firstName, String lastName, String email, String password, String areaCode,
+	/*public User(String id, String firstName, String lastName, String email, String password, String areaCode,
 			String mobileNumber, String dob, String gender, String addressLine1, String addressLine2, String city,
 			String state, String zip, String country, String creator, String role, String[] authority,
 			Date lastLoginDateDisplay, Date lastLoginDate, Boolean active, Boolean notLocked, 
@@ -259,5 +266,5 @@ public class User {
 
 	public void setProfileImage(MultipartFile profileImage) {
 		this.profileImage = profileImage;
-	}
+	}*/
 }

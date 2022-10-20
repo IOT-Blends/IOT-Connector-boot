@@ -32,6 +32,8 @@ import com.sai.incubation.IotConnector.filter.JwtAccessDeniedHandler;
 import com.sai.incubation.IotConnector.filter.JwtAuthEntryPointFilter;
 import com.sai.incubation.IotConnector.filter.JwtAuthorizationFilter;
 import com.sai.incubation.IotConnector.service.AppUserDetailsService;
+import com.sai.incubation.IotConnector.service.UserService;
+import com.sai.incubation.IotConnector.serviceImpl.UserServiceImpl;
 
 @Configuration
 @EnableWebSecurity
@@ -90,7 +92,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		}).and().csrf().disable()
 		.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
 		.and().authorizeRequests().antMatchers(SecurityConstant.PUBLIC_URLS).permitAll()
-		.anyRequest().authenticated() // .anyRequest().permitAll()
+		.anyRequest().authenticated() //.anyRequest().authenticated() permitAll()
 		.and().exceptionHandling().accessDeniedHandler(jwtAccessDeniedHandler)
 		.authenticationEntryPoint(jwtAuthEntryPoint)
 		.and().addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
@@ -111,5 +113,5 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		return new CorsFilter(source);
 
 	}
-
+	
 }

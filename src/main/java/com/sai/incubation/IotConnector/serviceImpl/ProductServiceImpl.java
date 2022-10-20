@@ -25,11 +25,12 @@ public class ProductServiceImpl implements ProductService {
 	@Override
 	public Optional<Product> createProduct(Product product) throws Exception {
 
-		Product saveedProduct = productRepo.save(product);
+		Product savedProduct = productRepo.save(product);
 
-		return saveedProduct != null ? Optional.of(saveedProduct) : Optional.empty();
+		return savedProduct != null ? Optional.of(savedProduct) : Optional.empty();
 	}
 
+	// Revisit the following method implementation and re-factor
 	@Override
 	public ResponseEntity<HttpResponse> updateProduct(Product newProduct) throws Exception {
 		Optional<Product> existingProduct = Optional.empty();
@@ -45,7 +46,7 @@ public class ProductServiceImpl implements ProductService {
 			if (!existingProduct.isPresent()) {
 				return CommonWebUtility.incorrectRequestData(HttpStatus.NOT_FOUND, ExceptionConstants.PRODUCT_NOTFOUND);
 			}
-			newProduct.setId(existingProduct.get().getId());
+			newProduct.setProductId(existingProduct.get().getProductId());
 			updatedProduct = productRepo.save(newProduct);
 		} catch (Exception e) {
 			// TODO: handle exception
@@ -75,7 +76,7 @@ public class ProductServiceImpl implements ProductService {
 
 		productRepo.deleteByProductId(id);
 
-		return Optional.of("Product ID : " + id + "has been deleted successfullt");
+		return Optional.of("Product ID : " + id + "has been deleted successfully");
 	}
 
 }

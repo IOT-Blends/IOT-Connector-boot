@@ -83,16 +83,18 @@ public class UserController extends ExceptionHandleAdvice{
 		Optional<User> userOpt = Optional.empty();
 		UserPrincipal userPrincipal;
 		HttpHeaders jwtHeader = null;
+		String jwtToken = null;
 
 		authenticate(user.getEmail(), user.getPassword());
 		userOpt = userService.getUserByEmail(user.getEmail());
 		if(null != userOpt) {
 			userPrincipal = new UserPrincipal(userOpt.get());
-			jwtHeader = getJwtHeader(userPrincipal);
+			//jwtHeader = getJwtHeader(userPrincipal);
+			jwtToken = jwtUtil.generateJwtToken(userPrincipal);
 		}
 		
 
-		return userOpt.isPresent() ? CommonWebUtility.createResponseEntity(HttpStatus.OK, jwtHeader, null, userOpt.get())
+		return userOpt.isPresent() ? CommonWebUtility.createResponseEntity(HttpStatus.OK, jwtHeader, null, jwtToken)
 				: CommonWebUtility.createResponseEntity(HttpStatus.BAD_REQUEST, null, "User cannot be verified, invalid username or password.", null);
 	}
 

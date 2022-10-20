@@ -1,25 +1,26 @@
 package com.sai.incubation.IotConnector.domain.productModel;
 
+import java.util.Date;
+
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.Indexed;
+
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+@Getter @Setter
+@AllArgsConstructor
+@NoArgsConstructor
 public class StarterKit {
-
-	private String weight;
-
-	private String mgfDate;
-
-	public String getWeight() {
-		return weight;
-	}
-
-	public void setWeight(String weight) {
-		this.weight = weight;
-	}
-
-	public String getMgfDate() {
-		return mgfDate;
-	}
-
-	public void setMgfDate(String mgfDate) {
-		this.mgfDate = mgfDate;
-	}
+	
+	@Id
+	private long starterKitId;
+	@Indexed(unique = true)
+	private String productId;
+	private String userId;
+	private Boolean status;
+	private Boolean powerStatus;
 
 }

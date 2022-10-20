@@ -67,8 +67,8 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
 		User userObj;
 		try {
-			String password = generatePassword();
-			user.setPassword(encodePassword(password));
+			//String password = generatePassword();
+			user.setPassword(encodePassword(user.getPassword()));
 			user.setRole(Role.ROLE_USER.name());
 			// user.setRole(getRoleEnumName("user").name());
 			user.setAuthority(Role.ROLE_USER.getAuthorities());
@@ -77,9 +77,9 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 			user.setNotLocked(Boolean.FALSE);
 			user.setProfileImageUrl(getTemporaryProfImgUrl(user.getFirstName()));
 			userObj = userRepo.save(user);
-			logger.info("Registered new user password: "+ password);
-			emailService.sendNewPasswordEmail(user.getFirstName(), password, user.getEmail());
-			saveProfileImage(user);
+			//logger.info("Registered new user password: "+ password);
+			emailService.sendNewPasswordEmail(user.getFirstName(), user.getPassword(), user.getEmail());
+			//saveProfileImage(user);
 		} catch (DuplicateKeyException e) {
 			throw new UserExistsException("Username: "+ user.getEmail() +", already exists");
 		}

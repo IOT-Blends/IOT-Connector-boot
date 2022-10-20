@@ -36,8 +36,8 @@ public class ProductController {
 		return "Welcome to IOT Connector - Nishanth";
 	}
 
-	@PostMapping("/create")
-	public ResponseEntity<HttpResponse> createProduct(@RequestBody Product product) {
+	@PostMapping("/add")
+	public ResponseEntity<HttpResponse> addProduct(@RequestBody Product product) {
 		Optional<Product> productOpt = Optional.empty();
 
 		try {
@@ -48,10 +48,10 @@ public class ProductController {
 
 		return productOpt.isPresent()
 				? CommonWebUtility.createResponseEntity(HttpStatus.OK, null, null, productOpt.get())
-				: CommonWebUtility.createResponseEntity(HttpStatus.NOT_FOUND, null, "Product Not Found", null);
+				: CommonWebUtility.createResponseEntity(HttpStatus.FOUND, null, "Product Already Found", null);
 	}
 
-	@PutMapping("update")
+	@PutMapping("/update")
 	public ResponseEntity<HttpResponse> updateProduct(@RequestBody Product product) throws Exception {
 		return productService.updateProduct(product);
 	}
