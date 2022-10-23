@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
@@ -86,7 +87,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		}).and().csrf().disable()
 		.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
 		.and().authorizeRequests().antMatchers(SecurityConstant.PUBLIC_URLS).permitAll()
-		.anyRequest().authenticated() //.anyRequest().authenticated() permitAll()
+		//.anyRequest().authenticated() 
+		.anyRequest().permitAll()
 		.and().exceptionHandling().accessDeniedHandler(jwtAccessDeniedHandler)
 		.authenticationEntryPoint(jwtAuthEntryPoint)
 		.and().addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);

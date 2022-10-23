@@ -87,14 +87,94 @@
 	        <version>1.18.20</version>
 	        <scope>provided</scope>
 	    </dependency>
+	    
+	    <!-- Dependecies for Openapi -->
+	    <dependency>
+		    <groupId>org.springdoc</groupId>
+		    <artifactId>springdoc-openapi-ui</artifactId>
+		    <version>1.6.4</version>
+		</dependency>
+	    <dependency>
+		    <groupId>org.openapitools</groupId>
+		    <artifactId>jackson-databind-nullable</artifactId>
+		    <version>0.2.1</version>
+		</dependency>
+		<dependency>
+		    <groupId>io.springfox</groupId>
+		    <artifactId>springfox-swagger2</artifactId>
+		    <version>2.9.2</version>
+		</dependency>
+	    <!--  -->
 	</dependencies>
 
-	<build>
+	<!-- https://codesoapbox.dev/generate-client-code-from-spring-boot-using-maven/ -->
+	<!-- https://github.com/OpenAPITools/openapi-generator/tree/master/modules/openapi-generator-maven-plugin -->
+	<profiles>
+		<profile>
+			<id>openapi</id>
+	        <build>
+	            <plugins>
+	                <plugin>
+	                    <groupId>org.springframework.boot</groupId>
+	                    <artifactId>spring-boot-maven-plugin</artifactId>
+	                    <executions>
+	                        <execution>
+	                            <id>pre-integration-test</id>
+	                            <goals>
+	                                <goal>start</goal>
+	                            </goals>
+	                        </execution>
+	                        <execution>
+	                            <id>post-integration-test</id>
+	                            <goals>
+	                                <goal>stop</goal>
+	                            </goals>
+	                        </execution>
+	                    </executions>
+	                </plugin>
+	                <plugin>
+	                    <groupId>org.openapitools</groupId>
+	                    <artifactId>openapi-generator-maven-plugin</artifactId>
+	                    <version>5.1.0</version>
+	                    <executions>
+	                        <execution>
+	                            <id>angular-client-code-generation</id>
+	                            <phase>integration-test</phase>
+	                            <goals>
+	                                <goal>generate</goal>
+	                            </goals>
+	                            <configuration>
+	                                <inputSpec>http://localhost:8080/v3/api-docs</inputSpec>
+	                                <!-- <output>${project.build.directory}/generated-sources/angular</output> -->
+	                                <output>${project.basedir}/iot-connect-ng</output>
+	                                <generatorName>typescript-angular</generatorName>
+	                                <!--
+	                                    Use this option to dump the configuration help for the specified generator
+	                                    instead of generating sources:
+	                                    <configHelp>true</configHelp>
+	                                -->
+	                                <configOptions>
+	                                    <!--
+	                                        Put generator-specific parameters here, e.g. for typescript-angular:
+	                                        <apiModulePrefix>Backend</apiModulePrefix>
+	                                     -->
+	                                     <npmName>@iotblends/iot-connect-ng-client</npmName>
+	                                     <ngVersion>13.1.4</ngVersion>
+	                                </configOptions>
+	                            </configuration>
+	                        </execution>
+	                    </executions>
+	                </plugin>
+	            </plugins>
+	        </build>
+		</profile>
+	</profiles>
+	<!-- <build>
 		<plugins>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
-				<!-- <version>2.3.3.RELEASE</version> -->
+				<version>2.3.3.RELEASE</version> 
 				<executions>
 					<execution>
 						<id>pre-integration-test</id>
@@ -113,7 +193,7 @@
 			<plugin>
 				<groupId>org.springdoc</groupId>
 				<artifactId>springdoc-openapi-maven-plugin</artifactId>
-				<!-- <version>0.2</version> -->
+				<version>0.2</version>
 				<executions>
 					<execution>
 						<phase>integration-test</phase>
@@ -124,6 +204,6 @@
 				</executions>
 			</plugin>
 		</plugins>
-	</build>
+	</build> -->
 
 </project>
