@@ -1,6 +1,8 @@
 package com.sai.incubation.IotConnector.constants;
 
-import static com.sai.incubation.IotConnector.constants.Authority.*;
+import static com.sai.incubation.IotConnector.constants.Authority.ADMIN_AUTHORITIES;
+import static com.sai.incubation.IotConnector.constants.Authority.SUPER_ADMIN_AUTHORITIES;
+import static com.sai.incubation.IotConnector.constants.Authority.USER_AUTHORITIES;
 
 public enum Role {
 
