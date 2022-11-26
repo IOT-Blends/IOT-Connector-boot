@@ -1,8 +1,6 @@
 package com.sai.incubation.IotConnector.serviceImpl;
 
-import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
 import java.math.BigInteger;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -12,15 +10,12 @@ import java.security.SecureRandom;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
-import java.util.Random;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.dao.DuplicateKeyException;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -35,8 +30,7 @@ import com.sai.incubation.IotConnector.constants.ExceptionConstants;
 import com.sai.incubation.IotConnector.constants.FileConstant;
 import com.sai.incubation.IotConnector.constants.Role;
 import com.sai.incubation.IotConnector.constants.UserConstants;
-import com.sai.incubation.IotConnector.controller.UserController;
-import com.sai.incubation.IotConnector.domain.Common.HttpResponse;
+import com.sai.incubation.IotConnector.convertor.UserConverter;
 import com.sai.incubation.IotConnector.domain.Common.UserPrincipal;
 import com.sai.incubation.IotConnector.domain.EntityDocument.User;
 import com.sai.incubation.IotConnector.exception.UserExistsException;
@@ -45,22 +39,28 @@ import com.sai.incubation.IotConnector.repository.UserRepository;
 import com.sai.incubation.IotConnector.service.EmailService;
 import com.sai.incubation.IotConnector.service.LoginAttemptService;
 import com.sai.incubation.IotConnector.service.UserService;
-import com.sai.incubation.IotConnector.utility.CommonWebUtility;
 
 @Service // To denote its a actual service class
 @Transactional // Manage propagation when dealing with transactions
 @Qualifier("userDetailsService") // Specific name used by bean when created
 public class UserServiceImpl implements UserService, UserDetailsService {
+	
 	private Logger logger = LoggerFactory.getLogger(getClass());
+	
 	@Autowired
 	private BCryptPasswordEncoder passwordEncoder;
 
 	@Autowired
 	private UserRepository userRepo;
+	
 	@Autowired
 	private LoginAttemptService loginAttemptService;
+	
 	@Autowired
 	private EmailService emailService;
+	
+	@Autowired
+	private UserConverter userConverter;
 
 	@Override
 	public Optional<User> addUser(User user) throws UserExistsException {
@@ -78,8 +78,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 			user.setProfileImageUrl(getTemporaryProfImgUrl(user.getFirstName()));
 			userObj = userRepo.save(user);
 			//logger.info("Registered new user password: "+ password);
-			emailService.sendNewPasswordEmail(user.getFirstName(), user.getPassword(), user.getEmail());
-			//saveProfileImage(user);
+			//emailService.sendNewPasswordEmail(user.getFirstName(), user.getPassword(), user.getEmail());
 		} catch (DuplicateKeyException e) {
 			throw new UserExistsException("Username: "+ user.getEmail() +", already exists");
 		}
@@ -107,14 +106,8 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 				throw new UserNotFoundException(ExceptionConstants.USERID_NOTFOUND + " : " + currentUser.getEmail());
 			}
 			if(null != currentUser) {
-				if(!StringUtils.isEmpty(currentUser.getFirstName()))
-					existingUser.get().setFirstName(currentUser.getFirstName());
-				if(!(StringUtils.isEmpty(currentUser.getRole()))) {
-					existingUser.get().setRole(currentUser.getRole());
-					existingUser.get().setAuthority(Role.ROLE_SUPER_ADMIN.getAuthorities());
-				}
+				userConverter.convert(existingUser.get(), currentUser);
 			}
-			saveProfileImage(currentUser);
 			updatedUser = userRepo.save(existingUser.get());
 
 		return updatedUser != null ? Optional.of(updatedUser) : Optional.empty();

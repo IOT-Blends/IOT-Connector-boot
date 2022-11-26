@@ -17,10 +17,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.sai.incubation.IotConnector.domain.Common.HttpResponse;
+import com.sai.incubation.IotConnector.domain.Common.HttpResponseObj;
 import com.sai.incubation.IotConnector.domain.EntityDocument.MasterProduct;
 import com.sai.incubation.IotConnector.service.MasterProductService;
-import com.sai.incubation.IotConnector.utility.CommonWebUtility;
+import com.sai.incubation.IotConnector.utility.CommonWebUtil;
 
 @RestController
 @RequestMapping("api/master/product")
@@ -33,7 +33,7 @@ public class MasterProductController {
 	@Autowired
 	MasterProductService productService;
 	
-	@PostMapping("/add")
+	/*@PostMapping("/add")
 	public ResponseEntity<HttpResponse> addProduct(@RequestBody MasterProduct product) {
 		Optional<MasterProduct> productOpt = Optional.empty();
 
@@ -46,9 +46,9 @@ public class MasterProductController {
 		return productOpt.isPresent()
 				? CommonWebUtility.createResponseEntity(HttpStatus.OK, null, null, productOpt.get())
 				: CommonWebUtility.createResponseEntity(HttpStatus.FOUND, null, MASTER_PRODUCT_FOUND, null);
-	}
+	}*/
 	
-	@PutMapping("/update")
+	/*@PutMapping("/update")
 	public ResponseEntity<HttpResponse> updateProduct(@RequestBody MasterProduct product) throws Exception {
 		Optional<MasterProduct> updatedProduct = Optional.empty();
 		try {
@@ -60,9 +60,9 @@ public class MasterProductController {
 		return updatedProduct != null ? CommonWebUtility.createResponseEntity(HttpStatus.OK, null, null, updatedProduct)
 				: CommonWebUtility.createResponseEntity(HttpStatus.EXPECTATION_FAILED, null,
 						"Error while updating the Master Product", null);
-	}
+	}*/
 
-	@GetMapping("/all")
+	/*@GetMapping("/all")
 	public ResponseEntity<HttpResponse> getAllProducts() {
 		Optional<List<MasterProduct>> productOpt = Optional.empty();
 
@@ -75,9 +75,9 @@ public class MasterProductController {
 		return productOpt.isPresent()
 				? CommonWebUtility.createResponseEntity(HttpStatus.OK, null, null, productOpt.get())
 				: CommonWebUtility.createResponseEntity(HttpStatus.NOT_FOUND, null, MASTER_PRODUCT_NOT_FOUND, null);
-	}
+	}*/
 	
-	@DeleteMapping("/delete/{id}")
+	/*@DeleteMapping("/delete/{id}")
 	public ResponseEntity<HttpResponse> deleteProduct(@PathVariable long id) {
 
 		Optional<String> response = Optional.empty();
@@ -89,5 +89,5 @@ public class MasterProductController {
 
 		return response.isPresent() ? CommonWebUtility.createResponseEntity(HttpStatus.OK, null, null, response.get())
 				: CommonWebUtility.createResponseEntity(HttpStatus.NOT_FOUND, null, MASTER_PRODUCT_NOT_FOUND, null);
-	}
+	}*/
 }

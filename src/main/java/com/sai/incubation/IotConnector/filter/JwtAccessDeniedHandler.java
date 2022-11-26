@@ -17,7 +17,7 @@ import org.springframework.stereotype.Component;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sai.incubation.IotConnector.constants.SecurityConstant;
-import com.sai.incubation.IotConnector.domain.Common.HttpResponse;
+import com.sai.incubation.IotConnector.domain.Common.HttpResponseObj;
 
 @Component
 public class JwtAccessDeniedHandler implements AccessDeniedHandler{
@@ -28,7 +28,7 @@ public class JwtAccessDeniedHandler implements AccessDeniedHandler{
 	public void handle(HttpServletRequest request, HttpServletResponse response,
 			AccessDeniedException accessDeniedException) throws IOException, ServletException {
 		// TODO Auto-generated method stub
-		HttpResponse httpResponse = new HttpResponse(HttpStatus.UNAUTHORIZED.value(), HttpStatus.UNAUTHORIZED, HttpStatus.UNAUTHORIZED.getReasonPhrase().toUpperCase(), SecurityConstant.ACCESS_DENIED_MSG);
+		HttpResponseObj httpResponse = new HttpResponseObj(HttpStatus.UNAUTHORIZED.value(), HttpStatus.UNAUTHORIZED, HttpStatus.UNAUTHORIZED.getReasonPhrase().toUpperCase(), SecurityConstant.ACCESS_DENIED_MSG);
 		logger.info("Forbidden/Denied Access");
 		response.setContentType(MediaType.APPLICATION_JSON_VALUE);
 		response.setStatus(HttpStatus.UNAUTHORIZED.value());

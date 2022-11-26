@@ -1,4 +1,4 @@
-package com.sai.incubation.IotConnector.domain.productModel;
+package com.sai.incubation.IotConnector.domain.model;
 
 import java.util.Date;
 

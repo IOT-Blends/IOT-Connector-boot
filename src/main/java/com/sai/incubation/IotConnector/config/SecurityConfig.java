@@ -30,6 +30,7 @@ import com.sai.incubation.IotConnector.filter.JwtAccessDeniedHandler;
 import com.sai.incubation.IotConnector.filter.JwtAuthEntryPointFilter;
 import com.sai.incubation.IotConnector.filter.JwtAuthorizationFilter;
 
+@Profile("LOCAL")
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
@@ -56,13 +57,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
 		auth.userDetailsService(userDetailsService).passwordEncoder(bCryptPasswordEncoder);
 	}
-	
+
 	@Override
 	@Bean
 	public AuthenticationManager authenticationManagerBean() throws Exception {
-	    return super.authenticationManagerBean();
+		return super.authenticationManagerBean();
 	}
-	
+
 	/**
 	 * /myAccount - Secured /myBalance - Secured /myLoans - Secured /myCards -
 	 * Secured /notices - Not Secured /contact - Not Secured
@@ -87,8 +88,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		}).and().csrf().disable()
 		.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
 		.and().authorizeRequests().antMatchers(SecurityConstant.PUBLIC_URLS).permitAll()
-		//.anyRequest().authenticated() 
-		.anyRequest().permitAll()
+		.anyRequest().authenticated() 
+		//.anyRequest().permitAll()
 		.and().exceptionHandling().accessDeniedHandler(jwtAccessDeniedHandler)
 		.authenticationEntryPoint(jwtAuthEntryPoint)
 		.and().addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);

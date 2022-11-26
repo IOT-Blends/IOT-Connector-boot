@@ -88,7 +88,7 @@
 	        <scope>provided</scope>
 	    </dependency>
 	    
-	    <!-- Dependecies for Openapi -->
+	    <!-- Dependecies for Openapi start -->
 	    <dependency>
 		    <groupId>org.springdoc</groupId>
 		    <artifactId>springdoc-openapi-ui</artifactId>
@@ -104,14 +104,15 @@
 		    <artifactId>springfox-swagger2</artifactId>
 		    <version>2.9.2</version>
 		</dependency>
-	    <!--  -->
+	    <!-- Dependecies for Openapi end -->
 	</dependencies>
 
 	<!-- https://codesoapbox.dev/generate-client-code-from-spring-boot-using-maven/ -->
+	<!-- https://swathisprasad.medium.com/generating-and-consuming-rest-apis-with-spring-boot-2-angular-7-and-swagger-2-ee4abc3c6459 -->
 	<!-- https://github.com/OpenAPITools/openapi-generator/tree/master/modules/openapi-generator-maven-plugin -->
 	<profiles>
 		<profile>
-			<id>openapi</id>
+			<id>BUILD</id>
 	        <build>
 	            <plugins>
 	                <plugin>
@@ -169,41 +170,4 @@
 	        </build>
 		</profile>
 	</profiles>
-	<!-- <build>
-		<plugins>
-			<plugin>
-				<groupId>org.springframework.boot</groupId>
-				<artifactId>spring-boot-maven-plugin</artifactId>
-				<version>2.3.3.RELEASE</version> 
-				<executions>
-					<execution>
-						<id>pre-integration-test</id>
-						<goals>
-							<goal>start</goal>
-						</goals>
-					</execution>
-					<execution>
-						<id>post-integration-test</id>
-						<goals>
-							<goal>stop</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
-			<plugin>
-				<groupId>org.springdoc</groupId>
-				<artifactId>springdoc-openapi-maven-plugin</artifactId>
-				<version>0.2</version>
-				<executions>
-					<execution>
-						<phase>integration-test</phase>
-						<goals>
-							<goal>generate</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
-		</plugins>
-	</build> -->
-
 </project>

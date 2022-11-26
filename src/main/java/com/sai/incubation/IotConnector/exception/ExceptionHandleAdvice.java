@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.servlet.NoHandlerFoundException;
 
 import com.auth0.jwt.exceptions.TokenExpiredException;
-import com.sai.incubation.IotConnector.domain.Common.HttpResponse;
+import com.sai.incubation.IotConnector.domain.Common.HttpResponseObj;
 
 @RestControllerAdvice
 public class ExceptionHandleAdvice implements ErrorController{
@@ -31,9 +31,14 @@ public class ExceptionHandleAdvice implements ErrorController{
 	private static final String METHOD_NOT_ALLOWED = "This request method is not allowed on this endpoint, please send a '%s' request";
 	public static final String ERROR_PATH = "/error";
 	private static final String RESOURCE_NOT_FOUND = "Requested resource not found";
+	@Override
+	public String getErrorPath() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 	
-	@ExceptionHandler(BadCredentialsException.class)
-	public ResponseEntity<HttpResponse> badCredentialsException(){
+	/*@ExceptionHandler(BadCredentialsException.class)
+	public ResponseEntity<HttpResponseObj> badCredentialsException(){
 		return createHttpResponse(HttpStatus.BAD_REQUEST, INCORRECT_CREDENTIALS);
 	}
 	
@@ -56,7 +61,7 @@ public class ExceptionHandleAdvice implements ErrorController{
 	public ResponseEntity<HttpResponse> httpRequestMethodNotSupportedException(HttpRequestMethodNotSupportedException ex){
 		HttpMethod supportedMethod = Objects.requireNonNull(ex.getSupportedHttpMethods()).iterator().next();
 		return createHttpResponse(HttpStatus.METHOD_NOT_ALLOWED, String.format(METHOD_NOT_ALLOWED, supportedMethod));
-	}
+	}*/
 	
 	/*@ExceptionHandler(NoHandlerFoundException.class)
 	public ResponseEntity<HttpResponse> internalServerError(NoHandlerFoundException ex){
@@ -64,7 +69,7 @@ public class ExceptionHandleAdvice implements ErrorController{
 		return createHttpResponse(HttpStatus.BAD_REQUEST, "Requested page is not found - 404");
 	}*/
 	
-	@ExceptionHandler(Exception.class)
+	/*@ExceptionHandler(Exception.class)
 	public ResponseEntity<HttpResponse> internalServerError(Exception ex){
 		logger.error(ex.getMessage());
 		return createHttpResponse(HttpStatus.INTERNAL_SERVER_ERROR, INTERNAL_SERVER_ERROR);
@@ -90,6 +95,6 @@ public class ExceptionHandleAdvice implements ErrorController{
 	public String getErrorPath() {
 		// TODO Auto-generated method stub
 		return ERROR_PATH;
-	}
+	}*/
 
 }
