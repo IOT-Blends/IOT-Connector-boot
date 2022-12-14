@@ -11,7 +11,7 @@ import lombok.Data;
 import lombok.Setter;
 
 @Data
-public class HttpResponseObj {
+public class CommonResponseEntity {
 
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "MM-dd-yyy hh:mm:ss", timezone = ""
 			+ "America/New_York")
@@ -26,7 +26,7 @@ public class HttpResponseObj {
 		this.timeStamp = new Date();
 	}
 	
-	public HttpResponseObj(int httpStatusCode, HttpStatus httpStatus, String message, Object data) {
+	public CommonResponseEntity(int httpStatusCode, HttpStatus httpStatus, String message, Object data) {
 		this.timeStamp = new Date();
 		this.httpStatusCode = httpStatusCode;
 		this.httpStatus = httpStatus;

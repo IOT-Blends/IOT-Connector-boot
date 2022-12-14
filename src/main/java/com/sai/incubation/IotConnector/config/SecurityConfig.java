@@ -30,7 +30,7 @@ import com.sai.incubation.IotConnector.filter.JwtAccessDeniedHandler;
 import com.sai.incubation.IotConnector.filter.JwtAuthEntryPointFilter;
 import com.sai.incubation.IotConnector.filter.JwtAuthorizationFilter;
 
-@Profile("LOCAL")
+//@Profile("LOCAL")
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)

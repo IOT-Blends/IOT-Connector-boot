@@ -7,7 +7,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
-import com.sai.incubation.IotConnector.domain.Common.HttpResponseObj;
+import com.sai.incubation.IotConnector.domain.Common.CommonResponseEntity;
 import com.sai.incubation.IotConnector.domain.EntityDocument.Product;
 import com.sai.incubation.IotConnector.domain.EntityDocument.User;
 import com.sai.incubation.IotConnector.domain.responseentity.ProductResponseEntity;
@@ -15,11 +15,11 @@ import com.sai.incubation.IotConnector.domain.responseentity.UserResponseEntity;
 
 public class CommonWebUtil {
 
-	public static ResponseEntity<HttpResponseObj> createResponseEntity(HttpStatus httpStatus, HttpHeaders headers,
+	public static ResponseEntity<CommonResponseEntity> createResponseEntity(HttpStatus httpStatus, HttpHeaders headers,
 			String message, Object data) {
 		HttpHeaders httpHeaders = headers != null ? headers : new HttpHeaders();
-		HttpResponseObj response = new HttpResponseObj(httpStatus.value(), httpStatus, message, data);
-		return new ResponseEntity<HttpResponseObj>(response, httpHeaders, httpStatus);
+		CommonResponseEntity response = new CommonResponseEntity(httpStatus.value(), httpStatus, message, data);
+		return new ResponseEntity<CommonResponseEntity>(response, httpHeaders, httpStatus);
 
 	}
 

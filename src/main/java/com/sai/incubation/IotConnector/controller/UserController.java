@@ -23,7 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.sai.incubation.IotConnector.constants.SecurityConstant;
 import com.sai.incubation.IotConnector.constants.UserConstants;
-import com.sai.incubation.IotConnector.domain.Common.HttpResponseObj;
+import com.sai.incubation.IotConnector.domain.Common.CommonResponseEntity;
 import com.sai.incubation.IotConnector.domain.Common.UserPrincipal;
 import com.sai.incubation.IotConnector.domain.EntityDocument.User;
 import com.sai.incubation.IotConnector.domain.responseentity.UserResponseEntity;
@@ -62,7 +62,7 @@ public class UserController extends ExceptionHandleAdvice{
 	}
 	
 	@PostMapping("/login")
-	public ResponseEntity<HttpResponseObj> login(@RequestBody User user) throws UserNotFoundException {
+	public ResponseEntity<CommonResponseEntity> login(@RequestBody User user) throws UserNotFoundException {
 		
 		Optional<User> userOpt = Optional.empty();
 		UserPrincipal userPrincipal;
@@ -125,7 +125,7 @@ public class UserController extends ExceptionHandleAdvice{
 	}
 	
 	@PostMapping("/reset/password")
-	public ResponseEntity<HttpResponseObj> resetPassword(@RequestBody User user) throws UserNotFoundException {
+	public ResponseEntity<CommonResponseEntity> resetPassword(@RequestBody User user) throws UserNotFoundException {
 		try {
 			if(!StringUtils.isEmpty(user.getEmail()))
 				userService.resetPassword(user.getEmail());

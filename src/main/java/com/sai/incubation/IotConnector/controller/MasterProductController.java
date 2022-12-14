@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.sai.incubation.IotConnector.domain.Common.HttpResponseObj;
+import com.sai.incubation.IotConnector.domain.Common.CommonResponseEntity;
 import com.sai.incubation.IotConnector.domain.EntityDocument.MasterProduct;
 import com.sai.incubation.IotConnector.service.MasterProductService;
 import com.sai.incubation.IotConnector.utility.CommonWebUtil;
