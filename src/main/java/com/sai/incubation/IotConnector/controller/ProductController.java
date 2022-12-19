@@ -17,10 +17,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.sai.incubation.IotConnector.domain.Common.HttpResponse;
+import com.sai.incubation.IotConnector.domain.Common.CommonResponseEntity;
 import com.sai.incubation.IotConnector.domain.EntityDocument.Product;
+import com.sai.incubation.IotConnector.domain.responseentity.ProductResponseEntity;
 import com.sai.incubation.IotConnector.service.ProductService;
-import com.sai.incubation.IotConnector.utility.CommonWebUtility;
+import com.sai.incubation.IotConnector.utility.CommonWebUtil;
 
 @RestController
 @RequestMapping("api/product")
@@ -36,8 +37,8 @@ public class ProductController {
 		return "Welcome to IOT Connector - Nishanth";
 	}
 
-	@PostMapping("/create")
-	public ResponseEntity<HttpResponse> createProduct(@RequestBody Product product) {
+	@PostMapping("/add")
+	public ResponseEntity<ProductResponseEntity> addProduct(@RequestBody Product product) {
 		Optional<Product> productOpt = Optional.empty();
 
 		try {
@@ -47,17 +48,17 @@ public class ProductController {
 		}
 
 		return productOpt.isPresent()
-				? CommonWebUtility.createResponseEntity(HttpStatus.OK, null, null, productOpt.get())
-				: CommonWebUtility.createResponseEntity(HttpStatus.NOT_FOUND, null, "Product Not Found", null);
+				? CommonWebUtil.createProductHttpResponseEntity(HttpStatus.OK, null, null, productOpt.get())
+				: CommonWebUtil.createProductHttpResponseEntity(HttpStatus.FOUND, null, "Product Already Found", null);
 	}
 
-	@PutMapping("update")
+	/*@PutMapping("/update")
 	public ResponseEntity<HttpResponse> updateProduct(@RequestBody Product product) throws Exception {
 		return productService.updateProduct(product);
-	}
+	}*/
 
 	@GetMapping("/all")
-	public ResponseEntity<HttpResponse> getAllProducts() {
+	public ResponseEntity<ProductResponseEntity> getAllProducts() {
 		Optional<List<Product>> productOpt = Optional.empty();
 
 		try {
@@ -67,12 +68,12 @@ public class ProductController {
 		}
 
 		return productOpt.isPresent()
-				? CommonWebUtility.createResponseEntity(HttpStatus.OK, null, null, productOpt.get())
-				: CommonWebUtility.createResponseEntity(HttpStatus.NOT_FOUND, null, "Product Not Found", null);
+				? CommonWebUtil.createProductHttpResponseEntity(HttpStatus.OK, null, null, productOpt.get())
+				: CommonWebUtil.createProductHttpResponseEntity(HttpStatus.NOT_FOUND, null, "Product Not Found", null);
 	}
 
 	@GetMapping("/getById/{id}")
-	public ResponseEntity<HttpResponse> getProductById(@PathVariable String id) {
+	public ResponseEntity<ProductResponseEntity> getProductById(@PathVariable String id) {
 		Optional<Product> productOpt = Optional.empty();
 
 		try {
@@ -82,11 +83,11 @@ public class ProductController {
 		}
 
 		return productOpt.isPresent()
-				? CommonWebUtility.createResponseEntity(HttpStatus.OK, null, null, productOpt.get())
-				: CommonWebUtility.createResponseEntity(HttpStatus.NOT_FOUND, null, "Product Not Found", null);
+				? CommonWebUtil.createProductHttpResponseEntity(HttpStatus.OK, null, null, productOpt.get())
+				: CommonWebUtil.createProductHttpResponseEntity(HttpStatus.NOT_FOUND, null, "Product Not Found", null);
 	}
 
-	@DeleteMapping("/delete/{id}")
+	/*@DeleteMapping("/delete/{id}")
 	public ResponseEntity<HttpResponse> deleteProduct(@PathVariable String id) {
 
 		Optional<String> response = Optional.empty();
@@ -98,6 +99,6 @@ public class ProductController {
 
 		return response.isPresent() ? CommonWebUtility.createResponseEntity(HttpStatus.OK, null, null, response.get())
 				: CommonWebUtility.createResponseEntity(HttpStatus.NOT_FOUND, null, "Product Not Found", null);
-	}
+	}*/
 
 }

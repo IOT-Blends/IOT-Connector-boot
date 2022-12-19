@@ -10,11 +10,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 import com.sai.incubation.IotConnector.constants.ExceptionConstants;
-import com.sai.incubation.IotConnector.domain.Common.HttpResponse;
 import com.sai.incubation.IotConnector.domain.EntityDocument.Product;
+import com.sai.incubation.IotConnector.domain.responseentity.ProductResponseEntity;
 import com.sai.incubation.IotConnector.repository.ProductRepository;
 import com.sai.incubation.IotConnector.service.ProductService;
-import com.sai.incubation.IotConnector.utility.CommonWebUtility;
+import com.sai.incubation.IotConnector.utility.CommonWebUtil;
 
 @Service
 public class ProductServiceImpl implements ProductService {
@@ -25,34 +25,35 @@ public class ProductServiceImpl implements ProductService {
 	@Override
 	public Optional<Product> createProduct(Product product) throws Exception {
 
-		Product saveedProduct = productRepo.save(product);
+		Product savedProduct = productRepo.save(product);
 
-		return saveedProduct != null ? Optional.of(saveedProduct) : Optional.empty();
+		return savedProduct != null ? Optional.of(savedProduct) : Optional.empty();
 	}
 
+	// Revisit the following method implementation and re-factor
 	@Override
-	public ResponseEntity<HttpResponse> updateProduct(Product newProduct) throws Exception {
+	public ResponseEntity<ProductResponseEntity> updateProduct(Product newProduct) throws Exception {
 		Optional<Product> existingProduct = Optional.empty();
 		Product updatedProduct = null;
 		try {
 			if (StringUtils.isEmpty(newProduct.getProductId())) {
-				return CommonWebUtility.incorrectRequestData(HttpStatus.BAD_REQUEST,
-						ExceptionConstants.PRODUCTID_NOTFOUND);
+				/*return CommonWebUtility.incorrectRequestData(HttpStatus.BAD_REQUEST,
+						ExceptionConstants.PRODUCTID_NOTFOUND);*/
 			} else {
 				existingProduct = this.getProductById(newProduct.getProductId());
 			}
 
 			if (!existingProduct.isPresent()) {
-				return CommonWebUtility.incorrectRequestData(HttpStatus.NOT_FOUND, ExceptionConstants.PRODUCT_NOTFOUND);
+				//return CommonWebUtility.incorrectRequestData(HttpStatus.NOT_FOUND, ExceptionConstants.PRODUCT_NOTFOUND);
 			}
-			newProduct.setId(existingProduct.get().getId());
+			newProduct.setProductId(existingProduct.get().getProductId());
 			updatedProduct = productRepo.save(newProduct);
 		} catch (Exception e) {
 			// TODO: handle exception
 		}
 
-		return updatedProduct != null ? CommonWebUtility.createResponseEntity(HttpStatus.OK, null, null, updatedProduct)
-				: CommonWebUtility.createResponseEntity(HttpStatus.EXPECTATION_FAILED, null,
+		return updatedProduct != null ? CommonWebUtil.createProductHttpResponseEntity(HttpStatus.OK, null, null, updatedProduct)
+				: CommonWebUtil.createProductHttpResponseEntity(HttpStatus.EXPECTATION_FAILED, null,
 						"Error while updating the Product", null);
 	}
 
@@ -75,7 +76,7 @@ public class ProductServiceImpl implements ProductService {
 
 		productRepo.deleteByProductId(id);
 
-		return Optional.of("Product ID : " + id + "has been deleted successfullt");
+		return Optional.of("Product ID : " + id + "has been deleted successfully");
 	}
 
 }

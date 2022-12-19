@@ -30,6 +30,8 @@ import com.sai.incubation.IotConnector.constants.ExceptionConstants;
 import com.sai.incubation.IotConnector.constants.FileConstant;
 import com.sai.incubation.IotConnector.constants.Role;
 import com.sai.incubation.IotConnector.constants.UserConstants;
+
+import com.sai.incubation.IotConnector.convertor.UserConverter;
 import com.sai.incubation.IotConnector.domain.Common.UserPrincipal;
 import com.sai.incubation.IotConnector.domain.EntityDocument.User;
 import com.sai.incubation.IotConnector.exception.UserExistsException;
@@ -43,24 +45,31 @@ import com.sai.incubation.IotConnector.service.UserService;
 @Transactional // Manage propagation when dealing with transactions
 @Qualifier("userDetailsService") // Specific name used by bean when created
 public class UserServiceImpl implements UserService, UserDetailsService {
+	
 	private Logger logger = LoggerFactory.getLogger(getClass());
+	
 	@Autowired
 	private BCryptPasswordEncoder passwordEncoder;
 
 	@Autowired
 	private UserRepository userRepo;
+	
 	@Autowired
 	private LoginAttemptService loginAttemptService;
+	
 	@Autowired
 	private EmailService emailService;
+	
+	@Autowired
+	private UserConverter userConverter;
 
 	@Override
 	public Optional<User> addUser(User user) throws UserExistsException {
 
 		User userObj;
 		try {
-			String password = generatePassword();
-			user.setPassword(encodePassword(password));
+			//String password = generatePassword();
+			user.setPassword(encodePassword(user.getPassword()));
 			user.setRole(Role.ROLE_USER.name());
 			// user.setRole(getRoleEnumName("user").name());
 			user.setAuthority(Role.ROLE_USER.getAuthorities());
@@ -69,9 +78,8 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 			user.setNotLocked(Boolean.FALSE);
 			user.setProfileImageUrl(getTemporaryProfImgUrl(user.getFirstName()));
 			userObj = userRepo.save(user);
-			logger.info("Registered new user password: "+ password);
-			emailService.sendNewPasswordEmail(user.getFirstName(), password, user.getEmail());
-			saveProfileImage(user);
+			//logger.info("Registered new user password: "+ password);
+			//emailService.sendNewPasswordEmail(user.getFirstName(), user.getPassword(), user.getEmail());
 		} catch (DuplicateKeyException e) {
 			throw new UserExistsException("Username: "+ user.getEmail() +", already exists");
 		}
@@ -99,14 +107,8 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 				throw new UserNotFoundException(ExceptionConstants.USERID_NOTFOUND + " : " + currentUser.getEmail());
 			}
 			if(null != currentUser) {
-				if(!StringUtils.isEmpty(currentUser.getFirstName()))
-					existingUser.get().setFirstName(currentUser.getFirstName());
-				if(!(StringUtils.isEmpty(currentUser.getRole()))) {
-					existingUser.get().setRole(currentUser.getRole());
-					existingUser.get().setAuthority(Role.ROLE_SUPER_ADMIN.getAuthorities());
-				}
+				userConverter.convert(existingUser.get(), currentUser);
 			}
-			saveProfileImage(currentUser);
 			updatedUser = userRepo.save(existingUser.get());
 
 		return updatedUser != null ? Optional.of(updatedUser) : Optional.empty();
